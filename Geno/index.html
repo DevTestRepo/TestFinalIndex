@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <!-- PWA -->
+    <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/pwa_logo_48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/icons/pwa_logo_96x96.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="../assets/icons/pwa_logo_128x128.png">
+    <link rel="icon" type="image/png" sizes="144x144" href="../assets/icons/pwa_logo_144x144.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/pwa_logo_192x192.png">
+    <link rel="shortcut icon" href="../assets/icons/pwa_logo_48x48.png">
+    <link rel="apple-touch-icon" href="../assets/icons/pwa_logo_48x48.png">
+
+    <link rel="apple-touch-icon" sizes="96x96" href="../assets/icons/pwa_logo_96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../assets/icons/pwa_logo_144x144.png">
+    <meta name="apple-touch-icon" href="../assets/icons/pwa_logo_48x48.png">
+    <meta name="msapplication-TileImage" sizes="144x144" href="../assets/icons/pwa_logo_144x144.png">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- End of PWA -->
+    <script src=https://assets.adobedtm.com/22baa8e94be8/1a10950e025f/launch-e9fbdc64f363-development.min.js async></script>  
+
+    <title>Genotropin VIRTUAL NURSE</title>
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+    <link rel="stylesheet" href="../assets/css/pwa.css?v=1">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        #gameContainer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        #fullScreenToggle {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        a {
+            color: #0295FF;
+        }
+
+
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 54%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            z-index: -99999999;
+            display: none;
+
+        }
+
+        .centerBottom {
+            text-align: center;
+            position: absolute;
+            top: 70%;
+            width: 100%;
+            z-index: 99999999;
+            display: block;
+
+        }
+
+        .progress {
+            margin: 1.5em;
+            border: 1px solid white;
+            width: 50vw;
+            display: none;
+        }
+
+        .progress .full {
+            margin: 2px;
+            background: white;
+            height: 1em;
+            transform-origin: top left;
+        }
+
+        #loader {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body onload="verify('EM659iqRyWvLcr02V','QR_MR1_GENO_Vnurseglobal','con_main')">
+
+  <div id="gameContainer"></div>
+  <div id="LoadingText" class="centerBottom">
+      <p style="color:#FFFFFF";>Your guide is loading... this may take a while</p>
+  </div>
+    <script>
+    function isRunningStandalone() {  
+return navigator.standalone || (window.matchMedia('(display-mode: standalone)').matches);  
+} </script>
+
+       <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/2.0.0/zappar-cv.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+        var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
+        //window.zappar=ZCV.initialize();
+        const loader = document.querySelector("#loader");
+        var gameInstance= UnityLoader.instantiate("gameContainer", "Build/GenoV1Zappar.json"); 
+        
+       // window.zappar.permission_request_ui_promise().then(WaitForZCVLoad);
+        
+        function WaitForZCVLoad(){            
+            if (zappar.loaded()) { 
+                //loader.style.display = "none";.  
+                gameInstance= UnityLoader.instantiate("gameContainer", "Build/GenoV1Zappar.json", { onProgress: UnityProgress }); 
+                return; 
+            }
+            setTimeout(WaitForZCVLoad, 500);
+        }
+
+        function UnityProgress(gameInstance, progress) {
+            if (!gameInstance.Module) {
+                return;
+            }
+            window.uarGameInstance = gameInstance;
+            if (!gameInstance.progress) {
+                const progress = document.querySelector("#loader .progress");
+                progress.style.display = "block";
+                gameInstance.progress = progress.querySelector(".full");
+            }
+            gameInstance.progress.style.transform = `scaleX(${progress})`;
+            if (progress === 1 && !gameInstance.removeTimeout) {
+                gameInstance.removeTimeout = setTimeout(function () {
+                    loader.style.display = "none";
+                }, 0); // optionally set a delay in here.
+            }
+        }
+
+    </script>
+
+    <!--Please don't remove below section -->
+    <script type=text/javascript src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script type=text/javascript src="../assets/js/auth.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery-cookie.js"></script>
+    <!-- <script type="text/javascript" src="../../../../pwa_geno.js"></script> -->
+    <script src="../assets/js/urlbuilder.js?v=3"></script>
+    <script>
+       jQuery('head').append('<link rel="manifest" href="'+ window.location.origin +'/manifest.json" crossorigin="use-credentials">');
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('../service-worker.js')
+                .then(function () { console.log("Service Worker Registered"); });
+        }
+    </script>
+</body>
+
+</html>
